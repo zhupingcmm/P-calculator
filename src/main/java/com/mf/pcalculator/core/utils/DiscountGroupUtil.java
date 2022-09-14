@@ -8,6 +8,7 @@ import com.google.common.util.concurrent.AtomicLongMap;
 import com.mf.pcalculator.core.model.common.DiscountGroup;
 import com.mf.pcalculator.core.model.common.DiscountWrapper;
 import com.mf.pcalculator.core.model.common.Item;
+import com.mf.pcalculator.core.permutation.Permutation;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,6 +25,7 @@ public class DiscountGroupUtil {
 
         for (List<Item> items : list) {
             Set<DiscountWrapper> discountWrappers =items.stream().map(x -> {
+                // todo 这段代码有点重复，觉得可以删除
                 if (inMap.containsKey(x.getType())) {
                     Map<String, DiscountWrapper> m = inMap.get((x.getType()));
                     if (m.containsKey(x.getId())) {
@@ -33,8 +35,13 @@ public class DiscountGroupUtil {
                 return null;
             }).filter(Objects::nonNull).collect(Collectors.toSet());
 
-            if (CollectionUtils.isNotEmpty(discountWrappers)) {
-                resultList.add(Pair.of(discountWrappers, Sets.newHashSet()));
+            if (CollectionUtils.isNotEmpty(discountWrappers) && discountWrappers.size() >= 2) {
+                if (discountWrappers.size() > Permutation.SUPPORTED_SIZE) {
+                    // todo
+                } else {
+                    resultList.add(Pair.of(discountWrappers, Sets.newHashSet()));
+                }
+
             }
 
         }
@@ -50,9 +57,12 @@ public class DiscountGroupUtil {
             return null;
         }
 
+        // 最终接收结果
         List<List<Item>> resultList = Lists.newArrayList();
+
         AtomicLongMap<String> ctx = AtomicLongMap.create();
 
+        //索引，存放可能需要删除的key
         Map<String, Integer> idxMap = Maps.newHashMap();
 
         for (List<DiscountGroup> group : groups) {

@@ -60,8 +60,8 @@ public class TestController {
 
     private List<Pair<Set<DiscountWrapper>, Set<DiscountWrapper>>> transform(List<List<DiscountGroup>> groups) {
         List<DiscountWrapper> wrapperList = Lists.newArrayList(
-                new DiscountWrapper("zhekou", "1", "折扣", false, new DiscountConfig()),
-                new DiscountWrapper("manjian", "2", "满减", false, new DiscountConfig())
+                DiscountWrapper.of("zhekou", "1", "折扣", false, new DiscountConfig()),
+                DiscountWrapper.of("manjian", "2", "满减", false, new DiscountConfig())
         );
 
 

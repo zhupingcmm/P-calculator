@@ -22,6 +22,11 @@ public class DiscountGroup {
 
     private List<Item> items;
 
+    /**
+     * @Des 过滤掉 不在inMap 的 items， 根据优惠券的类型和id来进行过滤
+     * @param inMap
+     * @return
+     */
     public List<Item> filterItems(Map<String, Map<String, DiscountWrapper>> inMap) {
 
         if (CollectionUtils.isEmpty(items) || MapUtils.isEmpty(inMap)) {
