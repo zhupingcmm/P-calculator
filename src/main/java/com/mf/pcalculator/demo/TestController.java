@@ -2,16 +2,15 @@ package com.mf.pcalculator.demo;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.mf.pcalculator.core.aware.CalculatorRouter;
 import com.mf.pcalculator.core.constant.Constant;
 import com.mf.pcalculator.core.enums.GroupRelation;
-import com.mf.pcalculator.core.model.common.DiscountConfig;
-import com.mf.pcalculator.core.model.common.DiscountGroup;
-import com.mf.pcalculator.core.model.common.DiscountWrapper;
-import com.mf.pcalculator.core.model.common.Item;
+import com.mf.pcalculator.core.model.common.*;
 import com.mf.pcalculator.core.model.goods.GoodsInfo;
 import com.mf.pcalculator.core.model.goods.GoodsItem;
 import com.mf.pcalculator.core.utils.DiscountGroupUtil;
 import com.mf.pcalculator.core.utils.IdGenerator;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,10 @@ import java.util.stream.Collectors;
 
 
 @Controller
+@RequiredArgsConstructor
 public class TestController {
+
+    private final CalculatorRouter calculatorRouter;
 
     @RequestMapping("test")
     @ResponseBody
@@ -33,6 +35,25 @@ public class TestController {
         List<GoodsItem> items = mockItems();
         // mock 组关系并转化共享组
         List<Pair<Set<DiscountWrapper>, Set<DiscountWrapper>>> pairs = transform(mockGroups());
+
+        // 全局最优计算过程
+        List<CalcStage> globalStages = Lists.newArrayList();
+        int count = 0;
+        long totalPrice = items.stream().mapToLong(GoodsInfo::getSalePrice).sum();
+
+        long globalPrice = totalPrice;
+
+        Flowable flowable = (Flowable) new Flowable().build(calculatorRouter);
+
+
+        for (Pair<Set<DiscountWrapper>, Set<DiscountWrapper>> pair : pairs) {
+            List<DiscountWrapper> wrappers = Lists.newArrayList(pair.getLeft());
+
+            DiscountContext<GoodsItem> ctx = DiscountContext.create(totalPrice, Lists.newArrayList(items), wrappers);
+
+            System.out.println(ctx);
+        }
+
 
         return "zp";
     }
