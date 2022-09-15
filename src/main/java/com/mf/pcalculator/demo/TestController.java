@@ -8,6 +8,7 @@ import com.mf.pcalculator.core.enums.GroupRelation;
 import com.mf.pcalculator.core.model.common.*;
 import com.mf.pcalculator.core.model.goods.GoodsInfo;
 import com.mf.pcalculator.core.model.goods.GoodsItem;
+import com.mf.pcalculator.core.permutation.Permutation;
 import com.mf.pcalculator.core.utils.DiscountGroupUtil;
 import com.mf.pcalculator.core.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,7 @@ public class TestController {
             List<DiscountWrapper> wrappers = Lists.newArrayList(pair.getLeft());
 
             DiscountContext<GoodsItem> ctx = DiscountContext.create(totalPrice, Lists.newArrayList(items), wrappers);
+            flowable.perm(ctx);
 
             System.out.println(ctx);
         }

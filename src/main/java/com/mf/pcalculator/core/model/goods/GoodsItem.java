@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 @Data
 @AllArgsConstructor
-public class GoodsItem extends GoodsInfo implements Serializable, Cloneable {
+public class GoodsItem extends GoodsInfo implements Serializable, Cloneable, Comparable<GoodsItem> {
 
     private Long calculateId;
 
@@ -49,5 +49,10 @@ public class GoodsItem extends GoodsInfo implements Serializable, Cloneable {
     @Override
     protected GoodsInfo clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public int compareTo(GoodsItem o) {
+        return this.getCalculateId().compareTo(o.getCalculateId());
     }
 }

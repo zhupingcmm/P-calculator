@@ -23,6 +23,7 @@ public abstract class AbstractCalculator <T extends GoodsItem> implements Calcul
         stage.setAfterCalcPrice(price);
         stage.setIndex(idx);
         stage.setType(discountWrapper.getType());
+        result.setCurPrice(price);
         if (stage.getBeforeCalcPrice() > stage.getAfterCalcPrice()){
             result.getCurStages()[i] = stage;
         }

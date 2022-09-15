@@ -44,6 +44,7 @@ public abstract class Permutation<T extends GoodsItem> {
 
     public void perm(DiscountContext<T> context) {
         this.context = context;
+        initContext();
         int size = context.getDiscountWrappers().size();
         if (size == 0) return;
 
@@ -54,6 +55,12 @@ public abstract class Permutation<T extends GoodsItem> {
                 updateRecord(context.getCalcResult());
             }
         }
+        mustUseSet.clear();
+    }
+
+
+    private void initContext() {
+        context.getCalcResult().setCurPrice(context.getOriginalPrice());
     }
 
     private void updateRecord(CalcResult result) {
@@ -74,8 +81,8 @@ public abstract class Permutation<T extends GoodsItem> {
 
         long curPrice = context.getCalcResult().getCurPrice();
 
-        context.getCalcResult().setFinalPrice(curPrice);
-        return curPrice < context.getCalcResult().getCurFinalPrice();
+        context.getCalcResult().setCurFinalPrice(curPrice);
+        return curPrice < context.getCalcResult().getFinalPrice();
     }
 
     private boolean calcInner(Calculator<T> calculator, DiscountWrapper wrapper, List<Byte> a, int i) {
@@ -100,5 +107,9 @@ public abstract class Permutation<T extends GoodsItem> {
             }
         }
     }
+
+    public abstract void resetContext(DiscountContext<T> context);
+
+    public abstract boolean enableOptimize(List<Byte> a);
 
 }

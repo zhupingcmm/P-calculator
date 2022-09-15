@@ -15,6 +15,9 @@ public class DiscountConfig implements Serializable {
 
     private int calculateGroup;
 
+    /**
+     * 商品限制(0 -所有商品可以参与计算 1- 指定某些商品参与 2-指定某些商品不参与
+     */
     private int goodsType;
 
     private int itemType;
