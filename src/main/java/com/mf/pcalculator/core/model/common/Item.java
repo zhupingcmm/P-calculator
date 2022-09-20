@@ -14,11 +14,11 @@ import java.io.Serializable;
 public class Item implements Serializable {
 
     /**
-     * 优惠券类型
+     * the coupon of type
      */
     private String type;
     /**
-     * 优惠券id
+     * the coupon of id
      */
     private String id;
 }

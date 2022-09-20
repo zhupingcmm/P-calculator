@@ -2,7 +2,6 @@ package com.mf.pcalculator.core.model.goods;
 
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.mf.pcalculator.core.utils.IdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,16 +9,17 @@ import lombok.Data;
 import java.io.Serializable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 @Data
 @AllArgsConstructor
 public class GoodsItem extends GoodsInfo implements Serializable, Cloneable, Comparable<GoodsItem> {
 
+    /**
+     *  calculate id
+     *  the id should be unique and auto increment
+     */
     private Long calculateId;
-
-    private Map<String, Object> extra = Maps.newHashMap();
 
     public GoodsItem(long calculateId, GoodsInfo goodsInfo) {
 

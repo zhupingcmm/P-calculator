@@ -8,7 +8,6 @@ import com.mf.pcalculator.core.enums.GroupRelation;
 import com.mf.pcalculator.core.model.common.*;
 import com.mf.pcalculator.core.model.goods.GoodsInfo;
 import com.mf.pcalculator.core.model.goods.GoodsItem;
-import com.mf.pcalculator.core.permutation.Permutation;
 import com.mf.pcalculator.core.utils.DiscountGroupUtil;
 import com.mf.pcalculator.core.utils.IdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class TestController {
     @RequestMapping("test")
     @ResponseBody
     public Object test(){
-        // mock 商品
+        // mock products
         List<GoodsItem> items = mockItems();
         // mock 组关系并转化共享组
         List<Pair<Set<DiscountWrapper>, Set<DiscountWrapper>>> pairs = transform(mockGroups());
@@ -57,8 +56,6 @@ public class TestController {
                 globalPrice = ctx.getCalcResult().getFinalPrice();
                 globalStages = Arrays.asList(ctx.getCalcResult().getStages());
             }
-
-            System.out.println(ctx);
         }
 
 
@@ -68,11 +65,11 @@ public class TestController {
 
     private List<GoodsItem> mockItems (){
         IdGenerator idGenerator = IdGenerator.getInstance();
-        GoodsInfo goodsInfo = new GoodsInfo(1001L,2001L,null,4,20 * 100L,"产品1",null);
-        GoodsInfo goodsInfo2 = new GoodsInfo(1001L,2002L,null,2,10 * 100L,"产品1",null);
+        GoodsInfo goodsInfo = new GoodsInfo(1001L,2001L,null,4,20 * 100L,"product one",null);
+        GoodsInfo goodsInfo2 = new GoodsInfo(1001L,2002L,null,2,10 * 100L,"product two",null);
 
-        List<GoodsItem> items = GoodsItem.generateItems(goodsInfo, idGenerator, x->x.getExtra().put(Constant.UPDATE_ABLE_PRICE, x.getSalePrice()));
-        items.addAll(GoodsItem.generateItems(goodsInfo2, idGenerator, x->x.getExtra().put(Constant.UPDATE_ABLE_PRICE, x.getSalePrice())));
+        List<GoodsItem> items = GoodsItem.generateItems(goodsInfo, idGenerator, x->x.getGoodsExtra().put(Constant.UPDATE_ABLE_PRICE, x.getSalePrice()));
+        items.addAll(GoodsItem.generateItems(goodsInfo2, idGenerator, x->x.getGoodsExtra().put(Constant.UPDATE_ABLE_PRICE, x.getSalePrice())));
         return items;
     }
 
@@ -80,7 +77,7 @@ public class TestController {
         List<List<DiscountGroup>> groups = Lists.newArrayList();
         DiscountGroup discountGroup = DiscountGroup.builder()
                 .relation(GroupRelation.SHARE.getType())
-                .items(Lists.newArrayList(new Item("zhekou","1"),new Item("manjian","2"),new Item("manzeng","3")))
+                .items(Lists.newArrayList(new Item("discount","1"),new Item("fullReduction","2"),new Item("fullIncrease","3")))
                 .build();
         groups.add(Lists.newArrayList(discountGroup));
         return groups;
@@ -88,8 +85,8 @@ public class TestController {
 
     private List<Pair<Set<DiscountWrapper>, Set<DiscountWrapper>>> transform(List<List<DiscountGroup>> groups) {
         List<DiscountWrapper> wrapperList = Lists.newArrayList(
-                DiscountWrapper.of("zhekou", "1", "折扣", false, new DiscountConfig()),
-                DiscountWrapper.of("manjian", "2", "满减", false, new DiscountConfig())
+                DiscountWrapper.of("discount", "1", "full reduction", false, new DiscountConfig()),
+                DiscountWrapper.of("fullReduction", "2", "full reduction", false, new DiscountConfig())
         );
 
 

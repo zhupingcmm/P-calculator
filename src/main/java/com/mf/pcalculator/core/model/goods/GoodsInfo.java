@@ -15,22 +15,43 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoodsInfo implements Serializable, Cloneable {
+    /**
+     * product id
+     */
     private Long goodId;
+
+    /**
+     * sku id
+     */
 
     private Long skuId;
 
+    /**
+     * product category ids
+     */
     private List<Long> categoryIds;
 
+    /**
+     * product number
+     */
     private int num;
 
+    /**
+     * product sale price
+     */
     private Long salePrice;
+
+    /**
+     * product name
+     */
 
     private String name;
 
+    /**
+     * product extra name
+     */
+
     private Map<String, Object> goodsExtra = Maps.newHashMap();
-
-
-
 
     @Override
     protected GoodsInfo clone() throws CloneNotSupportedException {

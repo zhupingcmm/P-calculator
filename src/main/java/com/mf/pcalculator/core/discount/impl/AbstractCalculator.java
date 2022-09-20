@@ -6,6 +6,8 @@ import com.mf.pcalculator.core.model.common.CalcStage;
 import com.mf.pcalculator.core.model.common.DiscountContext;
 import com.mf.pcalculator.core.model.common.DiscountWrapper;
 import com.mf.pcalculator.core.model.goods.GoodsItem;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
